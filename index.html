@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusDirect | Liste des trajets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <header class="bg-blue-950 text-white  p-6">
+        <div class="flex items-centrer gap-3">
+            <img src="img/logo.png" alt="Logo BusDirect" class="h-12">
+            <h1 class="text-3xl font-bold">BusDirect</h1>
+
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-4">
+
+        <label for="recherche">Rechercher une ville</label>
+        <input id="recherche" type="text" placeholder="Ex : Safi" class="w-full border p-2 mb-4">
+
+        <label for="filtre-statut">Statut</label>
+        <select id="filtre-statut" class="w-full border p-2 mb-4">
+            <option value="tous">Tous</option>
+            <option value="disponible">Disponible</option>
+            <option value="complet">Complet</option>
+        </select>
+
+        <div class="bg-white p-4 mb-4">
+            <p>Nombre de passagers : <span id="total-passagers">0</span></p>
+            <p>Recette totale : <span id="recette-total">0 DH</span></p>
+        </div>
+
+        <div id="liste-trajtes" class="grid gap-4 md:grid-cpls-2 lg:grid-cols-3"></div>
+
+        <div id="pagination" class="flex gap-2 justify-centrer mt-4"></div>
+          
+    </main>
+   
+    <script type="module" src="js/main-trajets.js"></script>
+</body>
+</html>
