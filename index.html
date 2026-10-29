@@ -1,45 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BusDirect | Liste des trajets</title>
-    <script src="https://cdn.tailwindcss.com "></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <header class="bg-blue-950 text-white mx-auto p-6">
-        <h1 class="text-3xl font-bold">BusDirect</h1>
+    <header class="bg-blue-950 text-white  p-6">
+        <div class="flex items-centrer gap-3">
+            <img src="img/logo.png" alt="Logo BusDirect" class="h-12">
+            <h1 class="text-3xl font-bold">BusDirect</h1>
+
+        </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-6">
-        
-        <section class="mb-6">
-            <h2 class="text-2xl font-bold mb-4">Liste des trajets</h2>
-            <input  type="search" 
-                    id="recherche"
-                    placeholder="Rechercher une ville"
-                    class="w-full p-3 border rounded-lg">
-        </section>
+    <main class="max-w-5xl mx-auto p-4">
 
-        <section id="statistique" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div class="bg-white p-4 rounded-lg shadaw">
-                <h3 class="font-bold"> Nombre de passagers</h3>
-                <p id="total-passaagers">0</p>
-            </div>
+        <label for="recherche">Rechercher une ville</label>
+        <input id="recherche" type="text" placeholder="Ex : Safi" class="w-full border p-2 mb-4">
 
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="font-bold">Chifre d'affaires</h3>
-                <p id="chifre-d'affaires">0 DH</p>
-            </div>
-        </section>
+        <label for="filtre-statut">Statut</label>
+        <select id="filtre-statut" class="w-full border p-2 mb-4">
+            <option value="tous">Tous</option>
+            <option value="disponible">Disponible</option>
+            <option value="complet">Complet</option>
+        </select>
 
-        <section>
-            <div id="liste-trajets" class="grid grid-cols-1 md:grid-2 lg:grid-cols-3 gap-4">
-                <!-- les trajets -->
-            </div>
-        </section>
+        <div class="bg-white p-4 mb-4">
+            <p>Nombre de passagers : <span id="total-passagers">0</span></p>
+            <p>Recette totale : <span id="recette-total">0 DH</span></p>
+        </div>
+
+        <div id="liste-trajtes" class="grid gap-4 md:grid-cpls-2 lg:grid-cols-3"></div>
+
+        <div id="pagination" class="flex gap-2 justify-centrer mt-4"></div>
+          
     </main>
+   
     <script type="module" src="js/main-trajets.js"></script>
 </body>
 </html>
