@@ -1,109 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BusDirect</title>
-    <script src ="https://cdn.tailwindcss.com"></script>
+    <title>BusDirect | Cabine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-800">
-    <header class="bg-slate-900 px-6 py-6 text-white">
-        <div class="mx-auto max-w-6xl">
+
+    <header class="bg-blue-950 text-white p-6">
+        <div class="flex items-center gap-3">
+            <img src="img/logo.png" alt="Logo BusDirect" class="h-16">
             <h1 class="text-3xl font-bold">BusDirect</h1>
-            <p2 class="mt-2 text-slate-300">Safi -> Marrakech</p2>
         </div>
+        <a href="index.html" class="underline mt-2 inline-block">Trajets</a>
     </header>
-<!-- hada bach li carte yjiwena mekadinine fi espace  -->
-    <main class="mx-auto max-w-6xl space-y-6 p-6"> 
- <!-- hada bach espace mabine article o  article  -->
-        <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"> 
-            <article class="rounded-xl bg-white p-5 shadow-sm">
-                <p class="text-sm text-slate-500">Places disponibles</p>
-                <p id="places-disponible" class="mt-2 text-3xl font-bold">20/20</p>
-            </article>
 
-            <article class="rounded-xl bg-white p-5 shadow-sm">
-                <p class="text-sm text-slate-500">Prix total</p>
-                <p id="prix-total" class="mt-2 text-3xl font-bold">0 DH</p>
-             </article>
-        </section>
+    <main class="max-w-5xl mx-auto p-4">
+
+            <!-- infos de trajet -->
+        <div id="infos-trajet" class="bg-white p-4 mb-4">
+            <p>......</p>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-2">
+
+            <section class="bg-white p-4">
+                <h2 class="font-bold mb-2">Plan de la cabine</h2>
+
+                <div class="flex gap-4 mb-4">
+                    <p><span class="inline-block w-4 h-4 bg-green-500"></span>Libre</p>
+                    <p><span class="inline-block w-4 h-4 bg-green-500"></span>VIB</p>
+                    <p><span class="inline-block w-4 h-4 bg-green-500"></span>Occupé</p>
+                </div>
+
+                <!-- les 20 sieges -->
+                <div id="plan-bus"></div>
+            </section>
+
+            <div class=" flex flex-col gap-4">
+
+                <!-- reserve -->
+                <section class="bg-white p-4">
+                    <h2 class="font-bold mb-2">Réserver</h2>
+                    <form id="form-reserver">
+                        
+                        <label for="reserver-nom">Nom</label>
+                        <input type="text" id="reserver-nom" class="w-full border p-2"> 
+                        <p id="erreur-reserver-nom" class="text-red-600 text-sm"></p>
+
+                        <label for="reserve-tel">Téléphone</label>
+                        <input id="reserve-tel" type="text" class="w-full border p-2">
+                        <p id="erreur-reserver-tel" class="text-red-600 text-sm"></p>
+
+                        <label for="reserve-siege">Siége</label>
+                        <input id="reserve-siege" class="w-full border" p-2>
+                            <option value="">Premiere siége Libre</option>
+
+                            <button type="submit" class="bg-blue-700 text-white p-2">Réserver</button>
+                    </form>
+                    <p id="message-reserve" class="text green-700 mt-2"></p>
+                </section>
+
+                    <!-- Modifier -->
+                <section class="bg-white p-4">
+                    <h2 class="font-bold mb-2">Modifier</h2>
+                    <form id="form-modifier">
+
+                        <label for="modifier-passager">Passager</label>
+                        <select id="modifier-passager" class="w-full border p-2">
+                            <option value="">Choisir un passager</option>
+                        </select>
+
+                        <label for="modifier-nom">Nom</label>
+                        <input type="text" id="modifier-nom" class="w-full border p-2">
+                        <p id="erreur-modifier-tel" class="text-red-600 text-sm"></p>
+
+                        <label for="modifier-tel">Téléphone</label>
+                        <input id="reserve-tel" type="text" class="w-full border p-2">
+                        <p id="erreur-reserver-tel" class="text-red-600 text-sm"></p>
+
+                        <label for="modifier-siege">Siége</label>
+                        <select id="modifier-siege" class="w-full border" p-2 >
+                        <button type="submit" class="bg-blue-700 text-white p-2"></button>    
+                    </form>
+                    <p id="message-modifier" class="text green-700 mt-2"></p>
+                </section>
+
+                <!-- Annuler -->
+                 <section class="bg-white p-4">
+                    <h2 class="font-bold mb-2">Annuler</h2>
+                    <form id="form-annuler">
+
+                        <label for="annuler-passager">Passager</label>
+                        <select id="annuler-passager" class="w-full border p-2 mb-2">
+                            <option value="">Choisir un passager</option>
+                        </select>
+
+                        <button type="submit" class="bg-red-600 text-white p-2">Annuler</button>
+                    </form>
+                    <p id="message-annuler" class="text-green-700 mt-2"></p>
+                 </section>
+
+                 <!-- liste d'attente -->
+                  <section class="bg-white p-4">
+                    <h2 class="font-bold mb-2">Liste d'attente</h2>
+                    <form id="form-attente">
+
+                        <label for="attente-nom">Nom</label>
+                        <input type="text" id="attente-nom" class="w-full border p-2">
+                        <p id="erreur-attente-nom" class="text-red-600 text-sm"></p>
+
+                        <label for="attente-tel">Téléphone</label>
+                        <input type="text" id="attente-tel" class="w-full border p-2">
+                        <p id="erreur-attente-tel" class="text-red-600 text-sm"></p>
+                        <button type="submit" class="bg-blue-700 text-white p-2 mt-2"></button> 
+                    </form>
+                     <p id="message-attente" class="text-green-700 mt-2"></p>
+
+                     <ul id="liste-attente" class="text-green-700 mt-2"></ul>
+                  </section>
+            </div>
+        </div>
     </main>
-    <!-- Formulaire de reservations  -->
-     <section class="rounded-xl bg-white p-6 shadow-sm">
-        <h2 class="mb-4 text-xl font-bold">Réservation un siége</h2>
-
-        <form id ="form-reservation" class="space-y-4">
-            <div>
-                <label for="nom-passager" class="mb-1 block font-medium"> Nom du passager</label>
-                <input type="text" id="nom-passager" placeholder="Entrer Votre nom" class="w-full rounded-lg border-slate-300 p-3" required>
-            </div>
-            <div>
-                <label for="numero-siege" class="mb-1 block font-medium"> Choisir un siège</label>
-                <select id="numero-siege" class="w-full rounded-lg border border-slate-300 p-3 required">
-                    <option value="">Choisir un siège</option>
-                </select>
-            </div>
-            <button type="submit" class="rounded-lg bg-blue-600 px-5 py-3 font-bold text-white">Réserver
-            </button>
-            <p id="message-reservation" class="font-medium"></p>
-
-        </form>
-
-     </section>
-    <section class="rounded-xl bg-white p-6 shadow-sm">
-        <h2 class="mb-2 text-xl font-bold">Plan de la cabine</h2>
-        <div class="mb-5 flex flex-wrap gap-4 text-sm">
-            <p class="flex items-center gap-2">
-                <span class="h-4 w-4 rounded bg-green-500"></span>
-                Libre
-            </p>
-            <p class="flex item-centre gap-2">
-                <span class="h-4 w-4 rounded bg-red-500"></span>
-                Occupé
-            </p>
-        </div>
-        <div id="plan-bus" class="grid grid-cols-2 gap-4 sm:grid-colos-4"> 
-        </div>
-    </section> 
+    <script type="module" src="js/main-cabine.js"></script>
     
-   <!-- Formulaire de modification -->
-    <section class="rounded-xl bg-white p-6 shadow-sm ">
-        <h2 class="mb-4 text-xl font-bold">Modifier une reservation </h2>
-        <form id="form-modification" class="mb-1 block font-medium">
-            <div>
-                <label for="reservation-a-modifier" class="mb-1 block font-medium"> Choisir la reservation pour modifier</label>
-                <select id="reservation-a-modifier" class="w-full rounded-lg border border-slate-300 p-3" required>
-                    <option value="">Choisir une réservation</option>
-                </select>
-            </div>
-            <div>
-                <label for="nom-modification" class="mb-1 block font-medium"> Nouveau nom du passager</label>
-                <input type="text" id="nom-modification" placeholder="Entrer le nouveau nom" class="w-full rounded-lg border border-slate-300 p-3" required>
-            </div>
-            <div>
-                <label for="siege-modification" class="mb-1 block font-medium"> Nouveau siege</label>
-                <select id="siege-modification" class="w-full rounded-lg border border-slate-300 p-3" required>
-                    <option value="">Choisir un siege</option>
-                </select>
-            </div>
-            <button type="=submit" class="rounded-lg bg-blue-600 px-5 py-5 m-2 font-bold text-white">Modifier </button>
-        </form>
-    </section>
-    <!-- Formulaire de supprimer -->
-     <section class="rounded-xl bg-white p-6 shadow-sm">
-        <h2 class="mb-4 text-xl font-bold">Supprimer une reservatio</h2>
-        <form id="form-suppression" class="space-y-4">
-            <div>
-                <label for="siege-suppression" class="mb-1 block font-medium">Choisir le siege à supprimer</label>
-                <select id="siege-supprimer" class="w-full rounded-lg border border-slate-300 p-3" required>
-                    <option value="">Choisir un siege</option>
-                </select>
-            </div>
-            <button type="submit" class="rounded-lg bg-blue-600 px-5 py-5 font-bold text-white">Supprimer </button>
-            <p id="message-suppression" class="font-medium"></p>
-
-        </form>
-     </section>
- <script src="script.js"></script>   
 </body>
 </html>
