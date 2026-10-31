@@ -16,3 +16,6 @@ export function chargerTrajets(){
     }
     )
 }
+export function sauvegarder(trips){
+    localStorage.setItem("trips", JSON.stringify(trips));
+}

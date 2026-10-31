@@ -1,5 +1,6 @@
 // import "./store.js"
-import { chargerTrajets } from "./store.js";
+import { chargerTrajets , sauvegarder } from "./store.js";
 chargerTrajets().then(data => {
-    console.log(data);
+    sauvegarder(data);
+    console.log("sauvegardé");
 });
