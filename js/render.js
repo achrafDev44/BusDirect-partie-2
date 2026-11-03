@@ -20,22 +20,28 @@ export function renderTrips(modifiedTrips, page, size){
     selectedTrips.forEach((trip) => {
         let card = document.createElement("div");
 
-        card.className = "bg-white rounded-xl shadow-md flex flex-col gap-3";
+        card.className = "bg-white p-5 rounded-2xl shadow-md flex flex-col gap-3 hover:shadow-xl transition- duration-300";
 
         card.innerHTML = `
-            <h2 class= "text-xl font-bold text-blue-950">
-            ${trip.departure} -> ${trip.destination}
-            </h2>
-            <p>Départ : ${trip.departureTime}</p>
-            <p>Arrivée : ${trip.arrivalTime}</p>
-            <p>Prix : ${trip.price} DH</p>
-            <p>Place : ${trip.reservations.length} / ${trip.capacity}</p>
-            <p>Liste d'attente : ${trip.waitingList.length}</p>
+        <h2 class="text-xl font-bold text-blue-950 border-b pb-3">
+            ${trip.departure}->${trip.destination}
+        </h2>
+        
+        <p class="text-gray-600> Départ : ${trip.departureTime}</p>
+        <p class="text-gray-600> Arrivée : ${trip.arrivalTime}</p>
+        <p class="text-lg font-bold text-blue-950"> Prix : ${trip.price} DH</p>
+        <p class="text-gray-600> Places : ${trip.reservations.length} / ${trip.capacity}</p>
+        <p class="text-gray-600> Liste d'attente : ${trip.waitingList.length}</p>
 
-            <span class = "font-bold ${trip.reservations.length === trip.capacity ? "text-red-600" : "text-green-600"}">
-             ${trip.reservations.length === trip.capacity ? "Complet" : "Disponible"}
-            </span>`
+        <span class = "w-fit px-3 py-1 rounded-full font-bold ${trip.reservations.length === trip.capacity ? "bg-red-100 text-red-600": "bg-green-100 text-green-600"}">
+
+         ${trip.reservations.length === trip.capacity ? "Complet" : "Disponible"}
+        </span>
+        <a href = "cabine.html?id=${trip.id}"
+         class= "bg-blue-950 text-white text cantrer p-2 rounded-lg">Voir le trajet</a>
+        </a>`
+
         tripsContainer.appendChild(card);     
     })
-
 }
+
