@@ -34,10 +34,13 @@ export function renderTrips(modifiedTrips, page, size){
         <p class="text-gray-600> Liste d'attente : ${trip.waitingList.length}</p>
 
         <span class = "w-fit px-3 py-1 rounded-full font-bold ${trip.reservations.length === trip.capacity ? "bg-red-100 text-red-600": "bg-green-100 text-green-600"}">
-        
+
          ${trip.reservations.length === trip.capacity ? "Complet" : "Disponible"}
-        </span>`
-           
+        </span>
+        <a href = "cabine.html?id=${trip.id}"
+         class= "bg-blue-950 text-white text cantrer p-2 rounded-lg">Voir le trajet</a>
+        </a>`
+
         tripsContainer.appendChild(card);     
     })
 }
