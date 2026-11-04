@@ -23,16 +23,16 @@
             <p>......</p>
         </div>
 
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="grid gap-4 lg:grid-cols-2 ">
 
-            <section class="bg-white p-4">
+            <section>
                 <h2 class="font-bold mb-2">Plan de la cabine</h2>
 
                 <!-- les 20 sieges -->
-                <div id="plan-bus"></div>
+                <div id="plan-bus" class="grid grid-cols-5 gap-5 h-10"></div>
             </section>
 
-            <div class=" flex flex-col gap-4">
+            <div class=" flex flex-col gap-2">
 
                 <!-- reserve -->
                 <section class="bg-white p-4">
@@ -50,8 +50,8 @@
                         <label for="reserve-siege">Siége</label>
                         <select id="reserve-siege" class="w-full border p-2">
                             <option value="">Premiere siége Libre</option>
-
-                            <button type="submit" class="bg-blue-700 text-white border p-2">Réserver</button>
+                        </select>
+                            <button type="submit" class="w-full bg-blue-700 text-white p-3 rounded-lg text-center relative top-[15px]">Réserver</button>
                     </form>
                     <p id="message-reserve" class="text-green-700 mt-2"></p>
                 </section>
@@ -78,7 +78,8 @@
                         <select id="modifier-siege" class="w-full border p-2">
                             <option value="">choisir siége</option>
                         </select>
-                        <button type="submit" class="w-full bg-blue-700 text-white p-3 rounded-lg text-center relative top-[15px]">Modifier</button>    
+                        <button type="submit" class="w-full bg-blue-700 text-white p-3 rounded-lg text-center relative top-[15px]">Modifier</button> 
+                          
                     </form>
                     <p id="message-modifier" class="text-green-700 mt-2"></p>
                 </section>
