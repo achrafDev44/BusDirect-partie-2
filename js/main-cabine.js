@@ -1,5 +1,5 @@
 import { initialiser, sauvegarder } from "./store.js";
-import { placesLibres , estComplet , reserver } from "./reservations.js";
+import { placesLibres , estComplet , reserver, estVIP, prixSiege } from "./reservations.js";
 
 // recupérer parametre  id 
 // lire les parametre de url
@@ -57,10 +57,19 @@ async function demarrer() {
                 siege.textContent = `${i} - Libre`
                 siege.classList.add("bg-green-500","text-white")
             }
-            planBus.appendChild(siege);
+            if (estVIP(i)) {
+                const badge = document.createElement("span");
+                badge.textContent = "VIP";
+                badge.className = "block text-xs font-bold text-yellow-300";
+
+                siege.classList.add("border-4", "border-yellow-400");
+                siege.appendChild(badge);
+            }
+        planBus.appendChild(siege);
         }
     }
-   afficherSieges();
+    afficherSieges();
+
     const formReserver = document.querySelector("#form-reserver");
 
     const champNom = document.querySelector("#reserver-nom");
