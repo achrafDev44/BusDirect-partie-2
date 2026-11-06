@@ -14,9 +14,10 @@ export function chargerTrajets(){
     return fetch("./data/trips.json")
     .then(response => response.json())
     .catch(error => {
-        console.log("Erreur : ", error);laisse 
+        console.log("Erreur : ", error);
+        return [];
     }
-    )
+    );
 }
 
 export function sauvegarder(trips){
@@ -31,6 +32,7 @@ export async function initialiser(){
     }
     trips = await chargerTrajets();
     sauvegarder(trips);
+    return trips;
    
 }
 
