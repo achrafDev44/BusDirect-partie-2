@@ -1,20 +1,24 @@
-1 - BusDirect : 
-  Application web de réservation de sièges  sur la ligne interurbaine Safi à Marrakech.
+1 - BusDirect2 : 
+  Gestion et réservation de trajets.
 2 - Description : 
-  Ce projet Elle permet à un agent de gérer les réservations des passagers pour un trajet interurbain entre Safi et Marrakech.
+   application web de gestion et de réservation de trajets en bus. Elle permet aux utilisateurs de consulter les trajets disponibles, de réserver des sièges, de modifier ou d'annuler une réservation et de gérer une liste d'attente.
 3 - Objectifs du projet :
    - Faciliter la réservation des sièges.
    - Afficher les 20 sièges du bus.
-   - Identifier les sièges libres et réservés.
+   - Calculer la recette totale des réservations.
    - Permettre la modification des informations d'une réservation.
    - Permettre la suppression d'une réservation.
- 4 -  Technologie utilisés : 
+   - Gérer une liste d'attente pour les trajets complets.
+4 -  Technologie utilisés : 
    - HTML 
    - Talwind CSS 
    - Javascript
    - DOM
    - Git Github
- 5 - Développeur :
+   - LocalStorage
+   - Fetch API
+   - JSON
+5 - Développeur :
      Achraf Ghani
  
   
