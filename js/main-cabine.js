@@ -227,20 +227,35 @@ async function demarrer() {
         const siege = Number(selectAnnuler.value);
 
         if (siege === 0) {
-             messageAnnuler.textContent = "Choisir un passager";
+            messageAnnuler.textContent = "Choisir un passager";
             return;
         }
-        
-
-        trajet.reservations = trajet.reservations.filter(
-         reservation => reservation.seat !== siege
+        // recuperer reservation annuler
+        const reservationAnnulee = trajet.reservations.find(
+            reservation => reservation.seat === siege
         );
+        // supprimer la reservation
+        trajet.reservations = trajet.reservations.filter(
+            reservation => reservation.seat !== siege
+        );
+        // verifier si on a un passager dans la liste d'attente
+        if (trajet.waitingList.length > 0) {
+            // recuperer le premiere passager de la liste
+            const premierPassager = trajet.waitingList.shift();
 
-    sauvegarder(trips);
-    afficherSieges();
-
-    messageAnnuler.textContent = "Annulation réussie";
-});
+            trajet.reservations.push({
+                name: premierPassager.name,
+                phone: premierPassager.phone,
+                seat: reservationAnnulee.seat
+            });
+            messageAnnuler.textContent =
+                premierPassager.name + " obtenu le siège " + reservationAnnulee.seat;
+        }else{
+            messageAnnuler.textContent="annuler reussie"
+        }
+        sauvegarder(trips);
+        afficherSieges();   
+    });
 
     formAttente.addEventListener("submit", function(event) {
         event.preventDefault();
