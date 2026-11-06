@@ -11,6 +11,14 @@ export function renderTrips(modifiedTrips, page, size){
     }
     let tripsContainer = document.getElementById("liste-trajets");
     tripsContainer.innerHTML = "";
+    let recetteTotale = 0;
+
+    trips.forEach(function(trip) {
+        recetteTotale = recetteTotale + (trip.reservations.length * trip.price);
+    });
+
+    document.getElementById("recette-total").textContent =
+        recetteTotale + " DH";
     
     let startIndex = (page-1) * size;
     let endIndex = startIndex + size;
