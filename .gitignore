@@ -1,0 +1,13 @@
+# Dépendances
+node_modules/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Variables d'environnement
+.env
+.env.local
+
+# Logs
+*.log
