@@ -118,6 +118,26 @@ async function demarrer() {
 
     selectPassager.innerHTML ='<option value="">Choisir un passager</option>'
 
+    function afficherSiegesDisponibles(siegeActuel = 0) {
+        modifierSiege.innerHTML = '<option value="">Choisir un siège</option>';
+
+        for (let i = 1; i <= 20; i++) {
+            const existe = trajet.reservations.find(
+            reservation => reservation.seat === i
+        );
+
+            if (existe === undefined || i === siegeActuel) {
+                const option = document.createElement("option");
+
+                option.value = i;
+                option.textContent = "Siège " + i;
+
+                modifierSiege.appendChild(option);
+            }
+        }
+    }
+    afficherSiegesDisponibles();
+
     for (let i = 0; i < trajet.reservations.length; i++) {
         const reservation = trajet.reservations[i];
 
@@ -143,21 +163,8 @@ async function demarrer() {
             modifierNom.value=reservation.name
             modfierTel.value=reservation.phone
             // afficher les sieges disponible
-            modifierSiege.innerHTML='<option value="">Choisir un siege</option>';
-            for(let i=1;i<=20;i++){
-                const existe = trajet.reservations.find(
-                    reservation=>reservation.seat===i
-                );
-                   if (existe === undefined || i === reservation.seat) {
-                const option = document.createElement("option");
-
-                option.value = i;
-                option.textContent = "Siège " + i;
-
-                modifierSiege.appendChild(option);
-            }
-        }
-        modifierSiege.value=reservation.seat;
+            afficherSiegesDisponibles(reservation.seat);
+            modifierSiege.value = reservation.seat;
     }
     
     })
