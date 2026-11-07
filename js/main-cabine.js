@@ -1,5 +1,6 @@
 import { initialiser, sauvegarder } from "./store.js";
 import { placesLibres , estComplet , reserver, estVIP, prixSiege } from "./reservations.js";
+import { validerNom, validerTelephone } from "./validators.js";
 
 // recupérer parametre  id 
 // lire les parametre de url
@@ -175,19 +176,28 @@ async function demarrer() {
     formReserver.addEventListener("submit",function(event){
         event.preventDefault();
         const nom = champNom.value.trim();
-        const  telephone = champTel.value.trim();
+        const telephone = champTel.value.trim();
         const siege = Number(champSiege.value);
-        
-        if(nom === "" || telephone === "" || siege ===0){
-            message.textContent= "Veuillez remplir tout les champs";
-        } else{
-            const resultat = reserver(trajet, nom, telephone, siege);
-            message.textContent = resultat;
-            if(resultat === "Réservation réussie"){
-                sauvegarder(trips);
-                afficherSieges()
-               
-            }
+          
+        const erreurNom = document.getElementById("erreur-reserver-nom");
+        const erreurTel= document.getElementById("erreur-reserver-tel");
+
+       erreurNom.textContent =validerNom(trajet,nom);
+       erreurTel.textContent =validerTelephone(trajet,telephone);
+
+       if(erreurNom === false || erreurTel === false){
+        return;
+        }
+        if(siege === 0){
+            message.textContent ="Veuillez choisir un siege.";
+            return;
+        }
+        // termine reservation apres valider
+        const resultat = reserver(trajet, nom, telephone, siege);
+        message.textContent =resultat;
+        if (resultat === "Réservation réussie"){
+            sauvegarder(trips);
+            afficherSieges();
         }
     })
     formModifier.addEventListener("submit", function(event){
@@ -198,7 +208,7 @@ async function demarrer() {
         const seat = Number(modifierSiege.value);
 
         if (name === "" || phone === "" || seat === 0 || ancienSiege === 0) {
-             messageModifier.textContent = "Veuillez remplir tous les champs";
+            messageModifier.textContent = "Veuillez remplir tous les champs";
             return;
         }
         const existe = trajet.reservations.find(
