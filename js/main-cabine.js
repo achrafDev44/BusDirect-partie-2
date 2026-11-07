@@ -1,5 +1,6 @@
 import { initialiser, sauvegarder } from "./store.js";
-import { placesLibres , estComplet , reserver } from "./reservations.js";
+import { placesLibres, estComplet, reserver } from "./reservations.js";
+import { validerNom, validerTelephone } from "./validators.js";
 
 // recupérer parametre  id 
 // lire les parametre de url
@@ -48,7 +49,7 @@ async function demarrer() {
                 reservation =>reservation.seat === i
             );
 
-            siege.className = "border  px-3 py-5 text-center";
+            siege.className = "border p-2 sm:px-3 sm:py-5 text-center text-xs sm:text-sm break-words";
 
             if(reservation){
                 siege.textContent = `${i} - ${reservation.name}`;
@@ -62,6 +63,19 @@ async function demarrer() {
     }
    afficherSieges();
     const formReserver = document.querySelector("#form-reserver");
+    const fieldsetReserver = document.querySelector("#fieldset-reserver");
+    const fieldsetAttente = document.querySelector("#fieldset-attente")
+
+    function gererFormulaires() {
+        if (estComplet(trajet)) {
+            fieldsetReserver.disabled = true;
+            fieldsetAttente.disabled = false;
+        } else {
+            fieldsetReserver.disabled = false;
+            fieldsetAttente.disabled = true;
+        }
+    }
+    gererFormulaires();
 
     const champNom = document.querySelector("#reserver-nom");
     const champTel = document.querySelector("#reserve-tel");
@@ -90,7 +104,10 @@ async function demarrer() {
     const messageAttente = document.querySelector("#message-attente");
     const listeAttente = document.querySelector("#liste-attente");
 
-    selectPassager.innerHTML ='<options value="">Choisir un passager</options>'
+    const erreurNomAttente = document.querySelector("#erreur-attente-nom");
+    const erreurTelAttente = document.querySelector("#erreur-attente-tel");
+
+    selectPassager.innerHTML ='<option value="">Choisir un passager</option>'
 
     for (let i = 0; i < trajet.reservations.length; i++) {
         const reservation = trajet.reservations[i];
@@ -106,7 +123,7 @@ async function demarrer() {
 
         const option = document.createElement("option");
         option.value = reservation.seat;
-        option.textContent=reservation.name+"-siege"+reservation.seat;
+        option.textContent=reservation.name+"- siege"+reservation.seat;
         selectPassager.appendChild(option);
     }
     selectPassager.addEventListener("change",function(){
@@ -152,35 +169,67 @@ async function demarrer() {
             champSiege.appendChild(option);
          }
     }
-    listeAttente.innerHTML = "";
+    function afficherListeAttente(){
+        listeAttente.innerHTML = "";
 
-    for (let i = 0; i < trajet.waitingList.length; i++) {
-        const personne = trajet.waitingList[i];
-        const li = document.createElement("li");
+        for (let i = 0; i < trajet.waitingList.length; i++) {
+            const personne = trajet.waitingList[i];
+            const li = document.createElement("li");
 
-        li.textContent = personne.name + " - " + personne.phone;
+            li.textContent = "Position " + (i + 1) + " : " + personne.name + " - " + personne.phone;
+            const bouton = document.createElement("button");
+            bouton.textContent = "Retirer";
+            bouton.type = "button";
+            bouton.dataset.index = i;
 
-        listeAttente.appendChild(li);
-}
-
-    formReserver.addEventListener("submit",function(event){
-        event.preventDefault();
-        const nom = champNom.value.trim();
-        const  telephone = champTel.value.trim();
-        const siege = Number(champSiege.value);
-        
-        if(nom === "" || telephone === "" || siege ===0){
-            message.textContent= "Veuillez remplir tout les champs";
-        } else{
-            const resultat = reserver(trajet, nom, telephone, siege);
-            message.textContent = resultat;
-            if(resultat === "Réservation réussie"){
-                sauvegarder(trips);
-                afficherSieges()
-               
-            }
+            li.appendChild(bouton);
+            listeAttente.appendChild(li);
         }
-    })
+    }
+    afficherListeAttente();
+
+    listeAttente.addEventListener("click", function(event) {
+        if (event.target.tagName === "BUTTON") {
+            const index = Number(event.target.dataset.index);
+
+            trajet.waitingList.splice(index, 1);
+
+            sauvegarder(trips);
+            afficherListeAttente();
+        }
+    });
+
+    formReserver.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const nom = champNom.value.trim();
+        const telephone = champTel.value.trim();
+        const siege = Number(champSiege.value);
+
+        const erreurNom = document.getElementById("erreur-reserver-nom");
+        const erreurTel = document.getElementById("erreur-reserver-tel");
+
+        erreurNom.textContent = validerNom(trajet, nom);
+        erreurTel.textContent = validerTelephone(trajet, telephone);
+
+        if (erreurNom.textContent.length > 0 || erreurTel.textContent.length > 0) {
+            return;
+        }
+
+        if (siege === 0) {
+            message.textContent = "Veuillez choisir un siège.";
+            return;
+        }
+
+        const resultat = reserver(trajet, nom, telephone, siege);
+              message.textContent = resultat;
+
+        if (resultat === "Réservation réussie") {
+            sauvegarder(trips);
+            afficherSieges();
+            gererFormulaires();       
+    }
+});
     formModifier.addEventListener("submit", function(event){
         event.preventDefault();
         const ancienSiege =Number(selectPassager.value);
@@ -188,9 +237,19 @@ async function demarrer() {
         const phone = modfierTel.value.trim();
         const seat = Number(modifierSiege.value);
 
-        if (name === "" || phone === "" || seat === 0 || ancienSiege === 0) {
-             messageModifier.textContent = "Veuillez remplir tous les champs";
+       const erreurNomModifier = document.getElementById("erreur-modifier-nom");
+        const erreurTelModifier = document.getElementById("erreur-modifier-tel");
+
+        erreurNomModifier.textContent = validerNom(trajet, name, ancienSiege);
+        erreurTelModifier.textContent = validerTelephone(trajet, phone, ancienSiege);
+
+        if (erreurNomModifier.textContent.length > 0 ||                 erreurTelModifier.textContent.length > 0) {
             return;
+        }
+
+        if (seat === 0 || ancienSiege === 0) {
+                messageModifier.textContent = "Veuillez remplir tous les champs";
+                return;
         }
         const existe = trajet.reservations.find(
             reservation => reservation.seat === seat &&
@@ -221,7 +280,7 @@ async function demarrer() {
 
     messageModifier.textContent = "Modification réussie";
         
-    })
+    });
     formAnnuler.addEventListener("submit", function(event) {
         event.preventDefault();
         const siege = Number(selectAnnuler.value);
@@ -231,25 +290,39 @@ async function demarrer() {
             return;
         }
         
-
         trajet.reservations = trajet.reservations.filter(
-         reservation => reservation.seat !== siege
+            reservation => reservation.seat !== siege
         );
+        if (trajet.waitingList.length > 0) {
+            const [premier, ...reste] = trajet.waitingList;
 
-    sauvegarder(trips);
-    afficherSieges();
+            trajet.waitingList = reste;
 
-    messageAnnuler.textContent = "Annulation réussie";
-});
+            trajet.reservations = [...trajet.reservations, {
+                name: premier.name,
+                phone: premier.phone,
+                seat: siege
+            }];
+           messageAnnuler.textContent = premier.name + " a obtenu le siège " + siege;
+        }else{
+           messageAnnuler.textContent = "Annulation réussie";
+        }
+        afficherListeAttente();
+        sauvegarder(trips);
+        afficherSieges();
+        gererFormulaires();
+    });
 
     formAttente.addEventListener("submit", function(event) {
         event.preventDefault();
         const nom = attenteNom.value.trim();
         const telephone = attenteTel.value.trim();
 
-        if (nom === "" || telephone === "") {
-            messageAttente.textContent = "Veuillez remplir tous les champs";
-            return;
+        erreurNomAttente.textContent = validerNom(trajet, nom);
+        erreurTelAttente.textContent = validerTelephone(trajet, telephone);
+
+        if(erreurNomAttente.textContent.length > 0 || erreurTelAttente.textContent.length > 0) {
+        return;
         }
         if (estComplet(trajet) === false) {
             messageAttente.textContent = "Le trajet n'est pas encore complet";
@@ -257,17 +330,14 @@ async function demarrer() {
 }
 
         const personne = {
-             name: nom,
+            name: nom,
             phone: telephone
         };
 
-        trajet.waitingList.push(personne);
+        trajet.waitingList = [...trajet.waitingList, personne];
 
         sauvegarder(trips);
-
-        const li = document.createElement("li");
-        li.textContent = personne.name + " - " + personne.phone;
-        listeAttente.appendChild(li);
+        afficherListeAttente();
         messageAttente.textContent = "Ajout à la liste d'attente reussi";
         attenteNom.value = "";
         attenteTel.value = "";
