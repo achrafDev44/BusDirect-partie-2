@@ -101,6 +101,23 @@ async function demarrer() {
     const modifierSiege = document.querySelector("#modifier-siege");
     const messageModifier = document.querySelector("#message-modifier");
 
+    function actualiserListesPassagers() {
+        selectPassager.innerHTML = '<option value="">Choisir un passager</option>';
+        selectAnnuler.innerHTML = '<option value="">Choisir un passager</option>';
+
+        trajet.reservations.forEach(function(reservation) {
+            const optionModifier = document.createElement("option");
+            optionModifier.value = reservation.seat;
+            optionModifier.textContent = reservation.name + " - Siège " + reservation.seat;
+            selectPassager.appendChild(optionModifier);
+
+            const optionAnnuler = document.createElement("option");
+            optionAnnuler.value = reservation.seat;
+            optionAnnuler.textContent = reservation.name + " - Siège " + reservation.seat;
+            selectAnnuler.appendChild(optionAnnuler);
+        });
+    }
+
     // Formulaire annuler
     const formAnnuler= document.querySelector("#form-annuler");
     const selectAnnuler= document.querySelector("#annuler-passager");
@@ -115,8 +132,6 @@ async function demarrer() {
 
     const erreurNomAttente = document.querySelector("#erreur-attente-nom");
     const erreurTelAttente = document.querySelector("#erreur-attente-tel");
-
-    selectPassager.innerHTML ='<option value="">Choisir un passager</option>'
 
     function afficherSiegesDisponibles(siegeActuel = 0) {
         modifierSiege.innerHTML = '<option value="">Choisir un siège</option>';
@@ -137,24 +152,8 @@ async function demarrer() {
         }
     }
     afficherSiegesDisponibles();
+    actualiserListesPassagers();
 
-    for (let i = 0; i < trajet.reservations.length; i++) {
-        const reservation = trajet.reservations[i];
-
-        const option = document.createElement("option");
-        option.value = reservation.seat;
-        option.textContent = reservation.name + " - Siège " + reservation.seat;
-
-        selectAnnuler.appendChild(option);
-}
-    for(let i=0;i<trajet.reservations.length;i++){
-        const reservation=trajet.reservations[i];
-
-        const option = document.createElement("option");
-        option.value = reservation.seat;
-        option.textContent=reservation.name+"- siege"+reservation.seat;
-        selectPassager.appendChild(option);
-    }
     selectPassager.addEventListener("change",function(){
         const reservation = trajet.reservations.find(
             reservation => reservation.seat=== Number(selectPassager.value)
@@ -245,6 +244,7 @@ async function demarrer() {
             afficherSieges();
             gererFormulaires();
             formReserver.reset();    
+            actualiserListesPassagers();
     }
 });
     formModifier.addEventListener("submit", function(event){
@@ -293,6 +293,7 @@ async function demarrer() {
     );
     sauvegarder(trips);
     afficherSieges();
+    actualiserListesPassagers();
 
     messageModifier.textContent = "Modification réussie";
     formModifier.reset();
@@ -327,6 +328,7 @@ async function demarrer() {
         afficherListeAttente();
         sauvegarder(trips);
         afficherSieges();
+        actualiserListesPassagers();
         gererFormulaires();
         formAnnuler.reset();
     });
