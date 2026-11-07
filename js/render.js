@@ -28,7 +28,7 @@ export function renderTrips(modifiedTrips, page, size){
     selectedTrips.forEach((trip) => {
         let card = document.createElement("div");
 
-        card.className = "bg-white p-5 rounded-2xl shadow-md flex flex-col gap-3";
+        card.className ="bg-white p-3 sm:p-5 rounded-2xl shadow-md flex flex-col gap-3 min-w-0";
 
         card.innerHTML = `
         <h2 class="text-xl font-bold bg-blue-950 text-white p-2 rounded"> ${trip.departure}->${trip.destination}</h2>
@@ -46,7 +46,8 @@ export function renderTrips(modifiedTrips, page, size){
         </a>`
 
         tripsContainer.appendChild(card);     
-    })
+    }),
+    renderPagination(modifiedTrips, page, size);
 }
 export function handleFilter(){
     const champRecherche = document.getElementById("recherche");
@@ -70,8 +71,52 @@ export function handleFilter(){
         }
         return matchCity && matchFilter
     });
-    renderTrips(filtreTrips, 1, 6);           
+    renderTrips(filtreTrips, 1, 6);                      
+}
+export function renderPagination(modifiedTrips, currentPage, pageSize) {
+    const pagination = document.getElementById("pagination");
 
-           
-            
+    pagination.innerHTML = "";
+
+    const totalPages = Math.ceil(modifiedTrips.length / pageSize);
+
+    if (totalPages <= 1) {
+        return;
+    }
+
+    // Bouton precedent
+    if (currentPage > 1) {
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "<";
+
+        prevBtn.addEventListener("click", function() {
+            renderTrips(modifiedTrips, currentPage - 1, pageSize);
+        });
+
+        pagination.appendChild(prevBtn);
+    }
+
+    // Numero des pages
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+
+        btn.addEventListener("click", function() {
+            renderTrips(modifiedTrips, i, pageSize);
+        });
+
+        pagination.appendChild(btn);
+    }
+
+    // Bouton suivant
+    if (currentPage < totalPages) {
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = ">";
+
+        nextBtn.addEventListener("click", function() {
+            renderTrips(modifiedTrips, currentPage + 1, pageSize);
+        });
+
+        pagination.appendChild(nextBtn);
+    }
 }
