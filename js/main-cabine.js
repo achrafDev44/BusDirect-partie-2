@@ -1,5 +1,5 @@
 import { initialiser, sauvegarder } from "./store.js";
-import { placesLibres, estComplet, reserver } from "./reservations.js";
+import { placesLibres, estComplet, reserver, estVIP, prixSiege } from "./reservations.js";
 import { validerNom, validerTelephone } from "./validators.js";
 
 // recupérer parametre  id 
