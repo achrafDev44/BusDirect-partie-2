@@ -2,7 +2,7 @@ export function validerNom(trajet, nom, ancienSiege= null){
     // verifier si le nom et vide
     if(nom.trim() ===""){
         return "Le nom de passager est obligatoire.";
-    } 
+    }
     // verifier si le nom deja existe
     const existe =trajet.reservations.find(reservation =>
         reservation.name.toLowerCase() === nom.trim().toLowerCase() && reservation.seat !== ancienSiege
@@ -11,7 +11,7 @@ export function validerNom(trajet, nom, ancienSiege= null){
         return "Ce nom deja utiliser dans ce trajet."
     }
     const existeAttente = trajet.waitingList.find(personne =>
-        personne.name.toLowerCase()=== nom.trim().toLowerCase()  
+        personne.name.toLowerCase()=== nom.trim().toLowerCase()
     );
     if(existeAttente){
         return "ce numero deja utilise dans ce trajet";
@@ -39,5 +39,5 @@ export function validerTelephone(trajet, telephone,ancienSiege= null){
     if(existeAttente){
         return "ce numero deja utilise dans ce trajet";
     }
-    return ""
+    return "";
 }

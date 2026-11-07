@@ -28,7 +28,7 @@ export function renderTrips(modifiedTrips, page, size){
     selectedTrips.forEach((trip) => {
         let card = document.createElement("div");
 
-        card.className = "bg-white p-5 rounded-2xl shadow-md flex flex-col gap-3";
+        card.className ="bg-white p-3 sm:p-5 rounded-2xl shadow-md flex flex-col gap-3 min-w-0";
 
         card.innerHTML = `
         <h2 class="text-xl font-bold bg-blue-950 text-white p-2 rounded"> ${trip.departure}->${trip.destination}</h2>
