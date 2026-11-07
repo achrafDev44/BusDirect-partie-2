@@ -236,7 +236,8 @@ async function demarrer() {
         if (resultat === "Réservation réussie") {
             sauvegarder(trips);
             afficherSieges();
-            gererFormulaires();       
+            gererFormulaires();
+            formReserver.reset();    
     }
 });
     formModifier.addEventListener("submit", function(event){
@@ -283,11 +284,11 @@ async function demarrer() {
         }
            
     );
-
     sauvegarder(trips);
     afficherSieges();
 
     messageModifier.textContent = "Modification réussie";
+    formModifier.reset();
         
     });
     formAnnuler.addEventListener("submit", function(event) {
@@ -320,6 +321,7 @@ async function demarrer() {
         sauvegarder(trips);
         afficherSieges();
         gererFormulaires();
+        formAnnuler.reset();
     });
 
     formAttente.addEventListener("submit", function(event) {
