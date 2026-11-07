@@ -58,10 +58,19 @@ async function demarrer() {
                 siege.textContent = `${i} - Libre`
                 siege.classList.add("bg-green-500","text-white")
             }
-            planBus.appendChild(siege);
+            if (estVIP(i)) {
+                const badge = document.createElement("span");
+                badge.textContent = "VIP";
+                badge.className = "block text-xs font-bold text-yellow-300";
+
+                siege.classList.add("border-4", "border-yellow-400");
+                siege.appendChild(badge);
+            }
+        planBus.appendChild(siege);
         }
     }
-   afficherSieges();
+    afficherSieges();
+
     const formReserver = document.querySelector("#form-reserver");
     const fieldsetReserver = document.querySelector("#fieldset-reserver");
     const fieldsetAttente = document.querySelector("#fieldset-attente")
@@ -286,7 +295,7 @@ async function demarrer() {
         const siege = Number(selectAnnuler.value);
 
         if (siege === 0) {
-             messageAnnuler.textContent = "Choisir un passager";
+            messageAnnuler.textContent = "Choisir un passager";
             return;
         }
         
@@ -325,7 +334,7 @@ async function demarrer() {
         return;
         }
         if (estComplet(trajet) === false) {
-            messageAttente.textContent = "Le trajet n'est pas encore complet";
+            messageAttente.textContent = "Le trajet pas encore complet";
              return;
 }
 
